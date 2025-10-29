@@ -1,13 +1,16 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import type { ActionState } from "../utils/to-action-state";
 
-type OnArgs = { actionState: ActionState };
+type OnArgs = {
+  actionState: ActionState;
+};
 
 type UseActionFeedbackOptions = {
   onSuccess?: (onArgs: OnArgs) => void;
   onError?: (onArgs: OnArgs) => void;
 };
 
+// TODO: Check that implementation
 const useActionFeedback = (
   actionState: ActionState,
   options: UseActionFeedbackOptions
@@ -34,7 +37,7 @@ const useActionFeedback = (
     }
 
     prevTimestamp.current = actionState.timestamp;
-  }, [actionState.status, actionState.timestamp]);
+  }, [actionState]);
 };
 
 export { useActionFeedback };
