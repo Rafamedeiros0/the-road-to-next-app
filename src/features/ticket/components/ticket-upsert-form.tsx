@@ -9,6 +9,7 @@ import { EMPTY_ACTION_STATE } from "@/components/form/utils/to-action-state";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { fromCent } from "@/utils/currency";
 import { upsertTicket } from "../actions/upsert-ticket";
 
 type TicketUpsertProps = {
@@ -44,6 +45,37 @@ const TicketUpsertForm = ({ ticket }: TicketUpsertProps) => {
         }
       />
       <FieldError actionState={actionState} name="content" />
+
+      <div className="flex gap-x-2 mb-1">
+        <div className="w-1/2">
+          <Label htmlFor="deadline">Deadline</Label>
+          <Input
+            id="deadline"
+            name="deadline"
+            type="date"
+            defaultValue={
+              (actionState.payload?.get("deadline") as string) ??
+              ticket?.deadline
+            }
+          ></Input>
+        </div>
+        <FieldError actionState={actionState} name="bounty" />
+
+        <div className="w-1/2">
+          <Label htmlFor="bounty">Bounty($)</Label>
+          <Input
+            id="bounty"
+            name="bounty"
+            type="number"
+            step=".01"
+            defaultValue={
+              (actionState.payload?.get("bounty") as string) ??
+              (ticket?.bounty ? fromCent(ticket.bounty) : "")
+            }
+          ></Input>
+        </div>
+        <FieldError actionState={actionState} name="bounty" />
+      </div>
 
       <SubmitButton label={ticket ? "Edit" : "Create"} />
     </Form>
