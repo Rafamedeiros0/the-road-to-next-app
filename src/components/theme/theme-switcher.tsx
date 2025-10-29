@@ -10,7 +10,6 @@ const ThemeSwitcher = () => {
     <div>
       <Button
         variant="outline"
-        className="cursor-pointer" //TODO : FIX THAT PART
         size="icon"
         onClick={() => setTheme(theme === "light" ? "dark" : "light")}
       >
