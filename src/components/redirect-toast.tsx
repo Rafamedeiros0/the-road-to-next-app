@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { deleteCookieByKey, getCookieByKey } from "@/actions/cookies";
 
 const RedirectToast = () => {
+  // TODO: NEXT ISSUE https://github.com/vercel/next.js/issues/60032
   const pathname = usePathname();
 
   useEffect(() => {
