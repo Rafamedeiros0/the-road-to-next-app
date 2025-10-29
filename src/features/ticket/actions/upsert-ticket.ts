@@ -30,7 +30,7 @@ export const upsertTicket = async (
       create: data,
     });
   } catch {
-    return { message: "Something went wrong" };
+    return { message: "Something went wrong", payload: formData };
   }
 
   revalidatePath(ticketsPath());
