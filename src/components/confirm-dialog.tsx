@@ -2,8 +2,15 @@ import {
   cloneElement,
   type MouseEventHandler,
   type ReactElement,
+  useActionState,
   useState,
 } from "react";
+import { Form } from "./form/form";
+import { SubmitButton } from "./form/submit-button";
+import {
+  type ActionState,
+  EMPTY_ACTION_STATE,
+} from "./form/utils/to-action-state";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,12 +21,11 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "./ui/alert-dialog";
-import { Button } from "./ui/button";
 
 type UseConfirmDialogProps = {
   title?: string;
   description?: string;
-  action: () => Promise<void>;
+  action: () => Promise<ActionState>;
   trigger: ReactElement<{ onClick?: MouseEventHandler<HTMLElement> }>;
 };
 
@@ -30,9 +36,17 @@ const useConfirmDialog = ({
   trigger,
 }: UseConfirmDialogProps) => {
   const [isOpen, setIsOpen] = useState(false);
+
   const dialogTrigger = cloneElement(trigger, {
     onClick: () => setIsOpen((state) => !state),
   });
+
+  const [actionState, formAction] = useActionState(action, EMPTY_ACTION_STATE);
+
+  const handleSuccess = () => {
+    setIsOpen(false);
+  };
+
   const dialog = (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogContent>
@@ -43,9 +57,13 @@ const useConfirmDialog = ({
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction asChild>
-            <form action={action}>
-              <Button type="submit">Confirm</Button>
-            </form>
+            <Form
+              action={formAction}
+              actionState={actionState}
+              onSuccess={handleSuccess}
+            >
+              <SubmitButton label="Confirm" />
+            </Form>
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
