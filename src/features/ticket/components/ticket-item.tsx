@@ -5,7 +5,7 @@ import {
   LucideSquareArrowOutUpRight,
 } from "lucide-react";
 import Link from "next/link";
-import type { Ticket } from "@/app/generated/prisma";
+import type { Prisma, Ticket, User } from "@/app/generated/prisma";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -20,7 +20,7 @@ import { TICKET_ICONS } from "../constants";
 import { TicketMoreMenu } from "./ticket-more-menu";
 
 type TicketItemProps = {
-  ticket: Ticket;
+  ticket: Prisma.TicketGetPayload<{ include: { User: true } }>;
   isDetail?: boolean;
 };
 
