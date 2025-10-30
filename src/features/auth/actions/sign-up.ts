@@ -2,7 +2,6 @@
 
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { Prisma } from "@/app/generated/prisma";
 import {
   type ActionState,
   fromErrorToActionState,

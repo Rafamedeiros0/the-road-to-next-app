@@ -1,10 +1,19 @@
-import { LucideKanban } from "lucide-react";
+"use client";
+
+import { LucideKanban, LucideLogOut } from "lucide-react";
 import Link from "next/link";
+import { useActionState } from "react";
+import { signOut } from "@/features/auth/actions/sign-out";
 import { homePath, signInPath, signUpPath, ticketsPath } from "@/paths";
+import { Form } from "./form/form";
+import { SubmitButton } from "./form/submit-button";
+import { EMPTY_ACTION_STATE } from "./form/utils/to-action-state";
 import { ThemeSwitcher } from "./theme/theme-switcher";
 import { buttonVariants } from "./ui/button";
 
 const Header = () => {
+  const [actionState, action] = useActionState(signOut, EMPTY_ACTION_STATE);
+
   const navItems = (
     <>
       <Link
@@ -25,6 +34,9 @@ const Header = () => {
       >
         Sign In
       </Link>
+      <Form action={action} actionState={actionState}>
+        <SubmitButton label="Sign Out" icon={<LucideLogOut />} />
+      </Form>
     </>
   );
 
