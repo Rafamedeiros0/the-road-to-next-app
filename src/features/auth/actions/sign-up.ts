@@ -1,23 +1,23 @@
 "use server";
 
+import { redirect } from "next/navigation";
 import { z } from "zod";
 import {
   type ActionState,
   fromErrorToActionState,
   toActionState,
 } from "@/components/form/utils/to-action-state";
+import { auth } from "@/lib/auth";
+import { ticketsPath } from "@/paths";
 
 const signUpSchema = z
   .object({
-    username: z
+    name: z
       .string()
       .min(1)
       .max(191)
-      .refine(
-        (value) => !value.includes(" "),
-        "Username cannot contain spaces"
-      ),
-    email: z.email("Is required"),
+      .refine((value) => !value.includes(" "), "Name cannot contain spaces"),
+    email: z.email(),
     password: z.string().min(6).max(191),
     confirmPassword: z.string().min(6).max(191),
   })
@@ -34,14 +34,24 @@ const signUpSchema = z
 
 export const signUp = async (_actionState: ActionState, formData: FormData) => {
   try {
-    const { username, email, password } = signUpSchema.parse(
+    const { name, email, password } = signUpSchema.parse(
       Object.fromEntries(formData)
     );
 
-    // TODO store in database
+    const response = await auth.api.signUpEmail({
+      body: {
+        name,
+        email,
+        password,
+      },
+    });
+
+    if (!response) {
+      return toActionState("ERROR", "Sign up failed");
+    }
   } catch (error) {
     return fromErrorToActionState(error, formData);
   }
 
-  return toActionState("SUCCESS", "Sign up successful");
+  redirect(ticketsPath());
 };
