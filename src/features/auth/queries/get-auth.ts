@@ -1,10 +1,11 @@
 "use server";
 
-import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { cache } from "react";
 
-export const getAuth = async () => {
+export const getAuth = cache(async () => {
   return await auth.api.getSession({
     headers: await headers(),
   });
-};
+});
