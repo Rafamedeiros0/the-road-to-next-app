@@ -1,6 +1,18 @@
+import { hashPassword } from "better-auth/crypto";
 import { PrismaClient } from "../src/app/generated/prisma/client";
 
 const prisma = new PrismaClient();
+
+const users = [
+  {
+    name: "admin",
+    email: "admin@admin.com",
+  },
+  {
+    name: "user",
+    email: "rafamedeiros0@gmail.com",
+  },
+];
 
 const tickets = [
   {
@@ -31,9 +43,30 @@ const seed = async () => {
   console.log("DB Seed: Started...");
 
   await prisma.ticket.deleteMany();
+  await prisma.account.deleteMany();
+  await prisma.session.deleteMany();
+  await prisma.user.deleteMany();
+
+  const passwordHash = await hashPassword("12345678");
+
+  const dbUsers = await prisma.user.createManyAndReturn({
+    data: users,
+  });
+
+  await prisma.account.createMany({
+    data: dbUsers.map(({ id }) => ({
+      accountId: id,
+      providerId: "credential",
+      userId: id,
+      password: passwordHash,
+    })),
+  });
 
   await prisma.ticket.createMany({
-    data: tickets,
+    data: tickets.map((ticket) => ({
+      ...ticket,
+      userId: dbUsers[0].id,
+    })),
   });
 
   const t1 = performance.now();

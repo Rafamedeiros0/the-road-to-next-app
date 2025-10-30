@@ -24,6 +24,10 @@ model Ticket {
   status    TicketStatus @default(OPEN)
   deadline  String
   bounty    Int
+  userId    String
+  User      User        @relation(fields: [userId], references: [id])
+
+  @@index([userId])
 }
 
 enum TicketStatus {
@@ -33,7 +37,7 @@ enum TicketStatus {
 }
 
 model User {
-  id            String    @id
+  id            String    @id @default(cuid())
   name          String    @unique
   email         String    @unique
   emailVerified Boolean   @default(false)
@@ -42,12 +46,13 @@ model User {
   updatedAt     DateTime  @default(now()) @updatedAt
   sessions      Session[]
   accounts      Account[]
+  tickets       Ticket[]
 
   @@map("user")
 }
 
 model Session {
-  id        String   @id
+  id        String   @id 
   expiresAt DateTime
   token     String   @unique
   createdAt DateTime @default(now())
@@ -61,7 +66,7 @@ model Session {
 }
 
 model Account {
-  id                    String    @id
+  id                    String    @id @default(cuid())
   accountId             String
   providerId            String
   userId                String
