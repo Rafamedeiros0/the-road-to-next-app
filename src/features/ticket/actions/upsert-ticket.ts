@@ -33,8 +33,6 @@ export const upsertTicket = async (
       bounty: formData.get("bounty"),
     });
 
-    console.log(data);
-
     const dbData = {
       ...data,
       bounty: toCent(data.bounty),
