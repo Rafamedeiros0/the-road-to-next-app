@@ -28,7 +28,6 @@ export const deleteTicket = async (id: string) => {
     await prisma.ticket.delete({
       where: {
         id,
-        userId: user.id,
       },
     });
   } catch (error) {
