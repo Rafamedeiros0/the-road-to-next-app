@@ -14,20 +14,20 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
-  {
-    plugins: {
-      "simple-import-sort": simpleimportSorte,
-    },
-    rules: {
-      "simple-import-sort/imports": [
-        "error",
-        {
-          groups: [["^\\u0000", "^@?\\w", "^[^.]", "\\."]],
-        },
-      ],
-      "simple-import-sort/exports": "error",
-    },
-  },
+  // {
+  //   plugins: {
+  //     "simple-import-sort": simpleimportSorte,
+  //   },
+  //   rules: {
+  //     "simple-import-sort/imports": [
+  //       "error",
+  //       {
+  //         groups: [["^\\u0000", "^@?\\w", "^[^.]", "\\."]],
+  //       },
+  //     ],
+  //     "simple-import-sort/exports": "error",
+  //   },
+  // },
 ]);
 
 export default eslintConfig;
