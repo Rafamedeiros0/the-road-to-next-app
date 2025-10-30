@@ -9,7 +9,7 @@ export default function NotFound() {
       title="Ticket not found"
       description="The ticket you're looking for doesn't exist."
       button={
-        <Button asChild variant={"outline"}>
+        <Button asChild variant="outline">
           <Link href={ticketsPath()}>Go to Tickets</Link>
         </Button>
       }
