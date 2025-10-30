@@ -29,10 +29,10 @@ export const signIn = async (_actionState: ActionState, formData: FormData) => {
     });
 
     if (!response) {
-      return toActionState("ERROR", "Incorrect email or password");
+      return toActionState("ERROR", "Incorrect email or password", formData);
     }
   } catch (error) {
-    return fromErrorToActionState(error);
+    return fromErrorToActionState(error, formData);
   }
 
   redirect(ticketsPath());

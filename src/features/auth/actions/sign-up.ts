@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { Prisma } from "@/app/generated/prisma";
 import {
   type ActionState,
   fromErrorToActionState,
@@ -47,9 +48,10 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
     });
 
     if (!response) {
-      return toActionState("ERROR", "Sign up failed");
+      return toActionState("ERROR", "Sign up failed", formData);
     }
   } catch (error) {
+    // TODO: check if I need improve the error handle considering better Auth
     return fromErrorToActionState(error, formData);
   }
 
