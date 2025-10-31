@@ -23,7 +23,17 @@
   }
 }
 
+@keyframes sidebar-from-left {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
 @theme {
+  --animate-sidebar-from-left: sidebar-from-left 0.5s ease-out;
   --animate-fade-in-from-top: fade-in-from-top 0.5s ease-out;
   --animate-header-from-top: header-from-top 0.5s ease-out;
 }
