@@ -1,12 +1,12 @@
 "use client";
 
+import { AccountDropdown } from "@/app/_navigation/account-dropdown";
 import { ThemeSwitcher } from "@/components/theme/theme-switcher";
 import { buttonVariants } from "@/components/ui/button";
 import { useAuth } from "@/features/auth/hooks/use-auth";
 import { homePath, signInPath, signUpPath } from "@/paths";
 import { LucideKanban } from "lucide-react";
 import Link from "next/link";
-import { AccountDropdown } from "./account-dropdown";
 
 const Header = () => {
   const { user, isFetched } = useAuth();

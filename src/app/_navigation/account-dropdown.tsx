@@ -1,9 +1,4 @@
-import { signOut } from "@/features/auth/actions/sign-out";
-import { accountPasswordPath, accountProfilePath } from "@/paths";
-import { User as AuthUser } from "better-auth";
-import { LucideLogOut, LucideUser } from "lucide-react";
-import Link from "next/link";
-import { Avatar, AvatarFallback } from "./ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,7 +6,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
+import { signOut } from "@/features/auth/actions/sign-out";
+import { accountPasswordPath, accountProfilePath } from "@/paths";
+import { User as AuthUser } from "better-auth";
+import { LucideLogOut, LucideUser } from "lucide-react";
+import Link from "next/link";
 
 type AccountDropdownProps = {
   user: AuthUser;
