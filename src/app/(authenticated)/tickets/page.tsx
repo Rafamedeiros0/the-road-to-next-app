@@ -6,8 +6,15 @@ import { TicketList } from "@/features/ticket/components/ticket-list";
 import { TicketUpsertForm } from "@/features/ticket/components/ticket-upsert-form";
 import { Suspense } from "react";
 
-const TicketsPage = async () => {
+import { TicketSearchParamsAsync } from "@/features/ticket/search-params";
+
+type TicketsPageProps = {
+  searchParams: TicketSearchParamsAsync;
+};
+
+const TicketsPage = async ({ searchParams }: TicketsPageProps) => {
   const { user } = await getAuth();
+  const params = await searchParams;
 
   return (
     <div className="flex-1 flex flex-col gap-y-8">
@@ -21,7 +28,7 @@ const TicketsPage = async () => {
       />
 
       <Suspense fallback={<Spinner />}>
-        <TicketList userId={user?.id} />
+        <TicketList userId={user?.id} searchParams={params} />
       </Suspense>
     </div>
   );
