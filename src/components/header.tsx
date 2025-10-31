@@ -1,13 +1,13 @@
 "use client";
 
+import { SubmitButton } from "@/components/form/components/submit-button";
+import { ThemeSwitcher } from "@/components/theme/theme-switcher";
+import { buttonVariants } from "@/components/ui/button";
 import { signOut } from "@/features/auth/actions/sign-out";
 import { useAuth } from "@/features/auth/hooks/use-auth";
 import { homePath, signInPath, signUpPath } from "@/paths";
 import { LucideKanban, LucideLogOut } from "lucide-react";
 import Link from "next/link";
-import { SubmitButton } from "./form/submit-button";
-import { ThemeSwitcher } from "./theme/theme-switcher";
-import { buttonVariants } from "./ui/button";
 
 const Header = () => {
   const { user, isFetched } = useAuth();

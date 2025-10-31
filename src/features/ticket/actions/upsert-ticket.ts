@@ -1,8 +1,5 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { z } from "zod";
 import { setCookieByKey } from "@/actions/cookies";
 import {
   type ActionState,
@@ -14,6 +11,9 @@ import { isOwner } from "@/features/auth/utils/is-owner";
 import { prisma } from "@/lib/prisma";
 import { ticketPath, ticketsPath } from "@/paths";
 import { toCent } from "@/utils/currency";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { z } from "zod";
 
 const upsertTicketSchema = z.object({
   title: z.string().min(1).max(191),
@@ -25,7 +25,7 @@ const upsertTicketSchema = z.object({
 export const upsertTicket = async (
   id: string | undefined,
   _formState: ActionState,
-  formData: FormData
+  formData: FormData,
 ) => {
   const { user } = await getAuthOrRedirect();
 

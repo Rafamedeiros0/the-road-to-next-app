@@ -5,8 +5,8 @@ import {
   useActionState,
   useState,
 } from "react";
-import { Form } from "./form/form";
-import { SubmitButton } from "./form/submit-button";
+import { Form } from "./form/components/form";
+import { SubmitButton } from "./form/components/submit-button";
 import {
   type ActionState,
   EMPTY_ACTION_STATE,
