@@ -15,7 +15,7 @@ export const navItems: NavItem[] = [
   },
   {
     separator: true,
-    label: "My Tickets",
+    label: "Account",
     icon: <LucideCircleUser />,
     href: accountProfilePath(),
   },
