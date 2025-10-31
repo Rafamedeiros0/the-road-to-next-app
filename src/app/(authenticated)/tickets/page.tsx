@@ -6,10 +6,10 @@ import { TicketList } from "@/features/ticket/components/ticket-list";
 import { TicketUpsertForm } from "@/features/ticket/components/ticket-upsert-form";
 import { Suspense } from "react";
 
-import { TicketSearchParamsAsync } from "@/features/ticket/search-params";
+import { SearchParamsAsync } from "@/features/ticket/search-params";
 
 type TicketsPageProps = {
-  searchParams: TicketSearchParamsAsync;
+  searchParams: SearchParamsAsync;
 };
 
 const TicketsPage = async ({ searchParams }: TicketsPageProps) => {

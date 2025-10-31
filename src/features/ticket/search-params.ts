@@ -1,5 +1,6 @@
-export type TicketSearchParams = {
-  search?: string;
+export type SearchParams = {
+  search: string | string[] | undefined;
+  sort: string | string[] | undefined;
 };
 
-export type TicketSearchParamsAsync = Promise<TicketSearchParams>;
+export type SearchParamsAsync = Promise<SearchParams>;
