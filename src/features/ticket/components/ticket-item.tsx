@@ -1,4 +1,3 @@
-import type { Prisma } from "@/app/generated/prisma";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,16 +16,11 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { TICKET_ICONS } from "../constants";
+import { TicketWithMetadata } from "../types";
 import { TicketMoreMenu } from "./ticket-more-menu";
 
 type TicketItemProps = {
-  ticket: Prisma.TicketGetPayload<{
-    include: {
-      User: {
-        select: { name: true };
-      };
-    };
-  }> & { isOwner: boolean };
+  ticket: TicketWithMetadata;
   isDetail?: boolean;
   comments?: React.ReactNode;
 };
