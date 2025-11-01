@@ -3,7 +3,7 @@ import { ParsedSearchParams } from "../search-params";
 
 export const getTickets = async (
   searchParams: ParsedSearchParams,
-  userId?: string
+  userId?: string,
 ) => {
   const searchedParams = await searchParams;
 
@@ -16,8 +16,7 @@ export const getTickets = async (
       },
     },
     orderBy: {
-      ...(searchedParams.sort === "newest" && { createdAt: "desc" }),
-      ...(searchedParams.sort === "bounty" && { bounty: "desc" }),
+      [searchedParams.sortKey]: searchedParams.sortValue,
     },
     include: {
       User: {
