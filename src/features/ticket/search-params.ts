@@ -1,6 +1,8 @@
-export type SearchParams = {
-  search: string | string[] | undefined;
-  sort: string | string[] | undefined;
-};
+import { createSearchParamsCache, parseAsString } from "nuqs/server";
 
-export type SearchParamsAsync = Promise<SearchParams>;
+export const searchParamsCache = createSearchParamsCache({
+  search: parseAsString.withDefault(""),
+  sort: parseAsString.withDefault("newest"),
+});
+
+export type ParsedSearchParams = ReturnType<typeof searchParamsCache.parse>;
