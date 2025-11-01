@@ -1,4 +1,5 @@
 import { Card } from "@/components/ui/card";
+import { formatDate } from "date-fns";
 import { CommentWithMetadata } from "../types";
 
 type CommentItemProps = {
@@ -15,7 +16,7 @@ const CommentItem = ({ comment, buttons }: CommentItemProps) => {
             {comment.User?.name ?? "Deleted User"}
           </p>
           <p className="text-sm text-muted-foreground">
-            {comment.createdAt.toLocaleString()}
+            {formatDate(comment.createdAt, "yyyy-MM-dd, HH:mm")}
           </p>
         </div>
         <p className="whitespace-pre-line">{comment.content}</p>
