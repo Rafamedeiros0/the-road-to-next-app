@@ -3,7 +3,7 @@
 import { CardCompact } from "@/components/card-compact";
 import { Button } from "@/components/ui/button";
 import { PaginatedData } from "@/types/pagination";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { getComments } from "../queries/get-comments";
 import { CommentWithMetadata } from "../types";
 import { CommentCreateForm } from "./comment-create-form";
@@ -16,9 +16,11 @@ type CommentsProps = {
 };
 
 const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } =
+  const queryKey = ["comments", ticketId];
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
-      queryKey: ["comments", ticketId],
+      queryKey,
       queryFn: ({ pageParam }) => getComments(ticketId, pageParam),
       initialPageParam: undefined as string | undefined,
       getNextPageParam: (lastPage) =>
@@ -38,9 +40,11 @@ const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
 
   const handleMore = () => fetchNextPage();
 
-  const handleDeleteComment = () => refetch();
+  const queryClient = useQueryClient();
 
-  const handleCreateComment = () => refetch();
+  const handleDeleteComment = () => queryClient.invalidateQueries({ queryKey });
+
+  const handleCreateComment = () => queryClient.invalidateQueries({ queryKey });
 
   return (
     <>
