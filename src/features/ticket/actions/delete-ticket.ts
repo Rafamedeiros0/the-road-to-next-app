@@ -13,8 +13,6 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export const deleteTicket = async (id: string) => {
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-
   const { user } = await getAuthOrRedirect();
   try {
     const ticket = await prisma.ticket.findUnique({

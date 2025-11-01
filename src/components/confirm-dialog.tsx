@@ -25,11 +25,17 @@ import {
 } from "./ui/alert-dialog";
 import { Button } from "./ui/button";
 
+type CustomizedReactElement = ReactElement<{
+  onClick?: MouseEventHandler<HTMLElement>;
+}>;
+
 type UseConfirmDialogProps = {
   title?: string;
   description?: string;
   action: () => Promise<ActionState>;
-  trigger: ReactElement<{ onClick?: MouseEventHandler<HTMLElement> }>;
+  trigger:
+    | CustomizedReactElement
+    | ((isPending: boolean) => CustomizedReactElement);
   onSuccess?: (ActionState: ActionState) => void;
 };
 
@@ -42,13 +48,16 @@ const useConfirmDialog = ({
 }: UseConfirmDialogProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const dialogTrigger = cloneElement(trigger, {
-    onClick: () => setIsOpen((state) => !state),
-  });
-
   const [actionState, formAction, isPending] = useActionState(
     action,
     EMPTY_ACTION_STATE,
+  );
+
+  const dialogTrigger = cloneElement(
+    typeof trigger === "function" ? trigger(isPending) : trigger,
+    {
+      onClick: () => setIsOpen((state) => !state),
+    },
   );
 
   const toastRef = useRef<string | number | null>(null);
