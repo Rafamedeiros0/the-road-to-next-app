@@ -36,3 +36,4 @@ export const searchParamsCache = createSearchParamsCache({
 });
 
 export type ParsedSearchParams = ReturnType<typeof searchParamsCache.parse>;
+export type SearchParamsInput = Awaited<ParsedSearchParams>;

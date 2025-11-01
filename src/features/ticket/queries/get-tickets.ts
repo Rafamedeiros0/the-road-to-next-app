@@ -1,11 +1,11 @@
 import { prisma } from "@/lib/prisma";
-import { ParsedSearchParams } from "../search-params";
+import { SearchParamsInput } from "../search-params";
 
 export const getTickets = async (
-  searchParams: ParsedSearchParams,
+  searchParams: SearchParamsInput,
   userId?: string,
 ) => {
-  const searchedParams = await searchParams;
+  const searchedParams = searchParams;
 
   const where = {
     userId,

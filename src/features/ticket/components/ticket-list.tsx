@@ -1,6 +1,6 @@
 import { PlaceholderV2 } from "@/components/placeholderV2";
 import { getTickets } from "../queries/get-tickets";
-import type { ParsedSearchParams } from "../search-params";
+import { searchParamsCache } from "../search-params";
 import { TicketItem } from "./ticket-item";
 import { TicketPagination } from "./ticket-pagination";
 import { TicketSearchInput } from "./ticket-search-input";
@@ -8,10 +8,10 @@ import { TicketSortSelect } from "./ticket-sort-select";
 
 type TicketListProps = {
   userId?: string;
-  searchParams: ParsedSearchParams;
 };
 
-const TicketList = async ({ userId, searchParams }: TicketListProps) => {
+const TicketList = async ({ userId }: TicketListProps) => {
+  const searchParams = searchParamsCache.all();
   const { list: tickets, metadata: ticketMetadata } = await getTickets(
     searchParams,
     userId,

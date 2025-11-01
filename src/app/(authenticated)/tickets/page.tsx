@@ -15,7 +15,7 @@ type TicketsPageProps = {
 
 const TicketsPage = async ({ searchParams }: TicketsPageProps) => {
   const { user } = await getAuth();
-  const params = searchParamsCache.parse(searchParams);
+  await searchParamsCache.parse(searchParams);
 
   return (
     <div className="flex-1 flex flex-col gap-y-8">
@@ -29,7 +29,7 @@ const TicketsPage = async ({ searchParams }: TicketsPageProps) => {
       />
 
       <Suspense fallback={<Spinner />}>
-        <TicketList userId={user?.id} searchParams={params} />
+        <TicketList userId={user?.id} />
       </Suspense>
     </div>
   );
