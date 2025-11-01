@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init 
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
   provider = "prisma-client-js"
@@ -26,7 +26,21 @@ model Ticket {
   bounty    Int
   userId    String
   User      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comments  Comment[]
 
+  @@index([userId])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  content   String   @db.VarChar(1024)
+  ticketId  String
+  Ticket    Ticket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  userId    String?
+  User      User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([ticketId])
   @@index([userId])
 }
 
@@ -47,12 +61,13 @@ model User {
   sessions      Session[]
   accounts      Account[]
   tickets       Ticket[]
+  comments      Comment[]
 
   @@map("user")
 }
 
 model Session {
-  id        String   @id 
+  id        String   @id
   expiresAt DateTime
   token     String   @unique
   createdAt DateTime @default(now())
