@@ -3,7 +3,7 @@
 import { CardCompact } from "@/components/card-compact";
 import { Button } from "@/components/ui/button";
 import { PaginatedData } from "@/types/pagination";
-import { useState } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { getComments } from "../queries/get-comments";
 import { CommentWithMetadata } from "../types";
 import { CommentCreateForm } from "./comment-create-form";
@@ -16,29 +16,31 @@ type CommentsProps = {
 };
 
 const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
-  const [comments, setComments] = useState(paginatedComments.list);
-  const [metadata, setMetadata] = useState(paginatedComments.metadata);
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } =
+    useInfiniteQuery({
+      queryKey: ["comments", ticketId],
+      queryFn: ({ pageParam }) => getComments(ticketId, pageParam),
+      initialPageParam: undefined as string | undefined,
+      getNextPageParam: (lastPage) =>
+        lastPage.metadata.hasNextPage ? lastPage.metadata.cursor : undefined,
+      initialData: {
+        pages: [
+          {
+            list: paginatedComments.list,
+            metadata: paginatedComments.metadata,
+          },
+        ],
+        pageParams: [undefined],
+      },
+    });
 
-  const handleMore = async () => {
-    const morePaginatedComments = await getComments(ticketId, metadata.cursor);
-    const moreComments = morePaginatedComments.list;
-    const moreMetadata = morePaginatedComments.metadata;
+  const comments = data.pages.flatMap((page) => page.list);
 
-    setComments([...comments, ...moreComments]);
-    setMetadata(moreMetadata);
-  };
+  const handleMore = () => fetchNextPage();
 
-  const handleDeleteComment = (id: string) => {
-    setComments((prevComments) =>
-      prevComments.filter((comment) => comment.id !== id),
-    );
-  };
+  const handleDeleteComment = () => refetch();
 
-  const handleCreateComment = (comment: CommentWithMetadata | undefined) => {
-    if (!comment) return;
-
-    setComments((prevComments) => [comment, ...prevComments]);
-  };
+  const handleCreateComment = () => refetch();
 
   return (
     <>
@@ -73,8 +75,12 @@ const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
       </div>
 
       <div className="flex flex-col justify-center ml-8">
-        {metadata.hasNextPage && (
-          <Button variant="ghost" onClick={handleMore}>
+        {hasNextPage && (
+          <Button
+            variant="ghost"
+            onClick={handleMore}
+            disabled={isFetchingNextPage}
+          >
             More
           </Button>
         )}
