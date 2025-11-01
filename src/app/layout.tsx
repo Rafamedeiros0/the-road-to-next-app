@@ -1,6 +1,7 @@
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Toaster } from "sonner";
 import { Header } from "./_navigation/header";
 import { Sidebar } from "./_navigation/sidebar/components/sidebar";
@@ -28,28 +29,30 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <ThemeProvider>
-          <Header />
-          <div className="flex h-screen overflow-hidden border-collapse">
-            <Sidebar />
-            <main
-              className="
+      <NuqsAdapter>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <ThemeProvider>
+            <Header />
+            <div className="flex h-screen overflow-hidden border-collapse">
+              <Sidebar />
+              <main
+                className="
                 min-h-screen flex-1
                 overflow-y-auto overflow-x-hidden
                 py-24 px-8
                 bg-secondary/20
                 flex flex-col
               "
-            >
-              {children}
-            </main>
-          </div>
-          <Toaster expand />
-        </ThemeProvider>
-      </body>
+              >
+                {children}
+              </main>
+            </div>
+            <Toaster expand />
+          </ThemeProvider>
+        </body>
+      </NuqsAdapter>
     </html>
   );
 }
