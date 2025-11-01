@@ -13,8 +13,8 @@ type TicketListProps = {
 const TicketList = async ({ userId }: TicketListProps) => {
   const searchParams = searchParamsCache.all();
   const { list: tickets, metadata: ticketMetadata } = await getTickets(
-    searchParams,
     userId,
+    searchParams,
   );
 
   return (
