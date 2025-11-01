@@ -6,6 +6,7 @@ export type ActionState = {
   fieldErrors: Record<string, string[] | undefined>;
   payload?: FormData;
   timestamp: number;
+  data?: unknown;
 };
 
 export const EMPTY_ACTION_STATE: ActionState = {
@@ -16,7 +17,7 @@ export const EMPTY_ACTION_STATE: ActionState = {
 
 export const fromErrorToActionState = (
   error: unknown,
-  payload?: FormData
+  payload?: FormData,
 ): ActionState => {
   if (error instanceof ZodError) {
     return {
@@ -48,7 +49,8 @@ export const fromErrorToActionState = (
 export const toActionState = (
   status: ActionState["status"],
   message: string,
-  payload?: FormData
+  payload?: FormData,
+  data?: unknown,
 ): ActionState => {
   return {
     status,
@@ -56,5 +58,6 @@ export const toActionState = (
     fieldErrors: {},
     payload,
     timestamp: Date.now(),
+    data,
   };
 };
