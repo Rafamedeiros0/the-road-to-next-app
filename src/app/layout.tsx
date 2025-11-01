@@ -5,6 +5,7 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Toaster } from "sonner";
 import { Header } from "./_navigation/header";
 import { Sidebar } from "./_navigation/sidebar/components/sidebar";
+import { ReactQueryProviders } from "./_providers/react-query/react-query-provider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -34,22 +35,24 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           <ThemeProvider>
-            <Header />
-            <div className="flex h-screen overflow-hidden border-collapse">
-              <Sidebar />
-              <main
-                className="
-                min-h-screen flex-1
-                overflow-y-auto overflow-x-hidden
-                py-24 px-8
-                bg-secondary/20
-                flex flex-col
-              "
-              >
-                {children}
-              </main>
-            </div>
-            <Toaster expand />
+            <ReactQueryProviders>
+              <Header />
+              <div className="flex h-screen overflow-hidden border-collapse">
+                <Sidebar />
+                <main
+                  className="
+                    min-h-screen flex-1
+                    overflow-y-auto overflow-x-hidden
+                    py-24 px-8
+                    bg-secondary/20
+                    flex flex-col
+                  "
+                >
+                  {children}
+                </main>
+              </div>
+              <Toaster expand />
+            </ReactQueryProviders>
           </ThemeProvider>
         </body>
       </NuqsAdapter>
