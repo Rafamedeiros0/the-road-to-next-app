@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { isOwner } from "@/features/auth/utils/is-owner";
 import { Comments } from "@/features/comment/components/comments";
@@ -19,6 +20,7 @@ import {
   LucideSquareArrowOutUpRight,
 } from "lucide-react";
 import Link from "next/link";
+import { Suspense } from "react";
 import { TICKET_ICONS } from "../constants";
 import { TicketMoreMenu } from "./ticket-more-menu";
 
@@ -111,7 +113,20 @@ const TicketItem = async ({ ticket, isDetail }: TicketItemProps) => {
           )}
         </div>
       </div>
-      {isDetail ? <Comments ticketId={ticket.id} /> : null}
+      {isDetail ? (
+        <Suspense
+          fallback={
+            <div className="flex flex-col gap-y-4">
+              <Skeleton className="h-[250px] w-full" />
+              <Skeleton className="h-20 ml-8" />
+              <Skeleton className="h-20 ml-8" />
+            </div>
+          }
+        >
+          {" "}
+          <Comments ticketId={ticket.id} />{" "}
+        </Suspense>
+      ) : null}
     </div>
   );
 };
